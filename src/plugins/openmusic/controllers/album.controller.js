@@ -1,10 +1,9 @@
-const AlbumService = require("../services/album.service");
-const { AlbumSchema } = require("../validations/album.validation");
+const validator = require("../../../utils/validator");
 
 class AlbumController {
-  constructor(validator) {
-    this._service = new AlbumService();
-    this._validator = validator;
+  constructor(service, validationSchema) {
+    this._service = service;
+    this._validationSchema = validationSchema.AlbumSchema;
 
     this.addAlbumController = this.addAlbumController.bind(this);
     this.getAlbumByIdController = this.getAlbumByIdController.bind(this);
@@ -13,7 +12,7 @@ class AlbumController {
   }
 
   async addAlbumController(req, res) {
-    this._validator(AlbumSchema, req.payload);
+    validator.validate(this._validationSchema.add, req.payload);
 
     const { name, year } = req.payload;
     const albumId = await this._service.addAlbumService({ name, year });
@@ -41,7 +40,7 @@ class AlbumController {
   }
 
   async updateAlbumController(req, res) {
-    this._validator(AlbumSchema, req.payload);
+    validator.validate(this._validationSchema.add, req.payload);
     const { name, year } = req.payload;
 
     await this._service.updateAlbumService(req.params.id, {

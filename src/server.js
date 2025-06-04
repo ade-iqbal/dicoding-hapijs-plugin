@@ -3,16 +3,33 @@ const Hapi = require("@hapi/hapi");
 const ValidationError = require("./exceptions/ValidationError");
 const ClientError = require("./exceptions/ClientError");
 const openmusic = require("./plugins/openmusic");
-const { validate: validator } = require("./utils/validations");
+const AlbumService = require("./services/album.service");
+const SongService = require("./services/song.service");
 
 const init = async () => {
-  // console.log(process.env);
+  const albumService = new AlbumService();
+  const songService = new SongService();
+
   const server = Hapi.server({
     port: process.env.PORT,
     host: process.env.HOST,
     routes: {
       cors: {
         origin: ["*"],
+      },
+    },
+  });
+
+  await server.register({
+    plugin: openmusic,
+    options: {
+      service: {
+        albumService,
+        songService,
+      },
+      validationSchema: {
+        album: require("./validations/album.validation"),
+        song: require("./validations/song.validation"),
       },
     },
   });
@@ -30,14 +47,16 @@ const init = async () => {
       });
       newResponse.code(response.statusCode);
       return newResponse;
-    } if (response instanceof ClientError) {
+    }
+    if (response instanceof ClientError) {
       const newResponse = res.response({
         status: "fail",
         message: response.message,
       });
       newResponse.code(response.statusCode);
       return newResponse;
-    } if (response instanceof Error) {
+    }
+    if (response instanceof Error) {
       console.log(response);
       const newResponse = res.response({
         status: "error",
@@ -48,13 +67,6 @@ const init = async () => {
     }
 
     return res.continue;
-  });
-
-  await server.register({
-    plugin: openmusic,
-    options: {
-      validator,
-    },
   });
 
   await server.start();

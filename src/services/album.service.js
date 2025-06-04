@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
-const { pool } = require("../../../config/postgres");
-const ClientError = require("../../../exceptions/ClientError");
+const { pool } = require("../config/postgres");
+const ClientError = require("../exceptions/ClientError");
 
 class AlbumService {
   constructor() {
