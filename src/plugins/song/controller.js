@@ -1,9 +1,10 @@
-const validator = require("../../../utils/validator");
+const validation = require("./validation");
 
 class SongController {
-  constructor(service, validationSchema) {
+  constructor(service, validator) {
     this._service = service;
-    this._validationSchema = validationSchema.SongSchema;
+    this._validationSchema = validation.Schema;
+    this._validator = validator;
 
     this.addSongController = this.addSongController.bind(this);
     this.getSongController = this.getSongController.bind(this);
@@ -13,7 +14,7 @@ class SongController {
   }
 
   async addSongController(req, res) {
-    validator.validate(this._validationSchema.add, req.payload);
+    this._validator.validate(this._validationSchema.add, req.payload);
 
     const { title, year, genre, performer, duration, albumId } = req.payload;
     const songId = await this._service.addSongService({
@@ -60,7 +61,7 @@ class SongController {
   }
 
   async updateSongController(req, res) {
-    validator.validate(this._validationSchema.add, req.payload);
+    this._validator.validate(this._validationSchema.add, req.payload);
     const { title, year, genre, performer, duration, albumId } = req.payload;
 
     await this._service.updateSongService(req.params.id, {

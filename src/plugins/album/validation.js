@@ -1,10 +1,10 @@
 const Joi = require("joi");
 
-const AlbumSchema = {
+const Schema = {
   add: Joi.object({
     name: Joi.string().required(),
     year: Joi.number().required(),
   }),
 };
 
-module.exports = { AlbumSchema };
+module.exports = { Schema };

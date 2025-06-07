@@ -7,9 +7,21 @@ class SongService {
     this._pool = pool;
   }
 
-  async addSongService({
-    title, year, genre, performer, duration, albumId,
-  }) {
+  async verifySongService(songId) {
+    const query = {
+      text: "SELECT id FROM songs WHERE id = $1",
+      values: [songId],
+    };
+    const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new ClientError(400, "Lagu yang anda masukkan tidak terdaftar");
+    }
+
+    return result.rows[0].id;
+  }
+
+  async addSongService({ title, year, genre, performer, duration, albumId }) {
     const id = uuidv4();
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
@@ -68,9 +80,7 @@ class SongService {
 
   async updateSongService(
     id,
-    {
-      title, year, genre, performer, duration, albumId,
-    },
+    { title, year, genre, performer, duration, albumId }
   ) {
     const updatedAt = new Date().toISOString();
     const query = {

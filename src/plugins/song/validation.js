@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const SongSchema = {
+const Schema = {
   add: Joi.object({
     title: Joi.string().required(),
     year: Joi.number().required(),
@@ -11,4 +11,4 @@ const SongSchema = {
   }),
 };
 
-module.exports = { SongSchema };
+module.exports = { Schema };
