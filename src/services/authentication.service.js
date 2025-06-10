@@ -1,7 +1,7 @@
-const { v4: uuidv4 } = require("uuid");
-const { pool } = require("../config/postgres");
-const ClientError = require("../exceptions/ClientError");
-const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
+const { pool } = require('../config/postgres');
+const ClientError = require('../exceptions/ClientError');
 
 class AuthenticationService {
   constructor() {
@@ -10,14 +10,14 @@ class AuthenticationService {
 
   async loginService(username, password) {
     const query = {
-      text: "SELECT id, password FROM users WHERE username = $1",
+      text: 'SELECT id, password FROM users WHERE username = $1',
       values: [username],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new ClientError(401, "Kredensial yang Anda berikan salah");
+      throw new ClientError(401, 'Kredensial yang Anda berikan salah');
     }
 
     const { id, password: hashedPassword } = result.rows[0];
@@ -25,7 +25,7 @@ class AuthenticationService {
     const match = await bcrypt.compare(password, hashedPassword);
 
     if (!match) {
-      throw new ClientError(401, "Kredensial yang Anda berikan salah");
+      throw new ClientError(401, 'Kredensial yang Anda berikan salah');
     }
     return id;
   }
@@ -36,7 +36,7 @@ class AuthenticationService {
     const updatedAt = createdAt;
 
     const query = {
-      text: "INSERT INTO authentications VALUES($1, $2, $3, $4)",
+      text: 'INSERT INTO authentications VALUES($1, $2, $3, $4)',
       values: [id, token, createdAt, updatedAt],
     };
 
@@ -45,20 +45,20 @@ class AuthenticationService {
 
   async verifyRefreshTokenService(token) {
     const query = {
-      text: "SELECT token FROM authentications WHERE token = $1",
+      text: 'SELECT token FROM authentications WHERE token = $1',
       values: [token],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new ClientError(400, "Refresh token tidak valid");
+      throw new ClientError(400, 'Refresh token tidak valid');
     }
   }
 
   async deleteRefreshTokenService(token) {
     const query = {
-      text: "DELETE FROM authentications WHERE token = $1",
+      text: 'DELETE FROM authentications WHERE token = $1',
       values: [token],
     };
 

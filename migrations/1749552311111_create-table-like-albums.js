@@ -8,19 +8,25 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('albums', {
+  pgm.createTable('like_albums', {
     id: {
       type: 'varchar(36)',
       notNull: true,
       primaryKey: true,
     },
-    name: {
-      type: 'varchar(255)',
+    user_id: {
+      type: 'varchar(36)',
       notNull: true,
+      references: 'users(id)',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
-    year: {
-      type: 'integer',
+    album_id: {
+      type: 'varchar(36)',
       notNull: true,
+      references: 'albums(id)',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
     created_at: {
       type: 'timestamp',
@@ -39,5 +45,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable('albums');
+  pgm.dropTable('like_albums');
 };

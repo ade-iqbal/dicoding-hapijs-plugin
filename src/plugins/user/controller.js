@@ -1,4 +1,4 @@
-const validation = require("./validation");
+const validation = require('./validation');
 
 class UserController {
   constructor(service, validator) {
@@ -20,7 +20,7 @@ class UserController {
     });
 
     const response = res.response({
-      status: "success",
+      status: 'success',
       data: {
         userId,
       },

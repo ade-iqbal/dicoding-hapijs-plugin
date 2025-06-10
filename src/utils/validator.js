@@ -1,4 +1,4 @@
-const ValidationError = require("../exceptions/ValidationError");
+const ValidationError = require('../exceptions/ValidationError');
 
 function validate(schema, data) {
   const result = schema.validate(data, {
@@ -9,11 +9,11 @@ function validate(schema, data) {
   if (result.error) {
     const errors = {};
 
-    for (const error of result.error.details) {
-      errors[error.context.label] = error.message;
-    }
+    result.error.details.forEach((error) => {
+      errors[error.context.key] = error.message;
+    });
 
-    throw new ValidationError("Data is invalid", errors);
+    throw new ValidationError('Data is invalid', errors);
   } else {
     return result.value;
   }

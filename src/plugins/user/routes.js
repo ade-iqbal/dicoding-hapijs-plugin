@@ -1,7 +1,7 @@
 const routes = (controller) => [
   {
-    method: "POST",
-    path: "/users",
+    method: 'POST',
+    path: '/users',
     handler: controller.addUserController,
   },
 ];

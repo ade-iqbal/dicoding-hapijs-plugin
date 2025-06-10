@@ -1,4 +1,4 @@
-const validation = require("./validation");
+const validation = require('./validation');
 
 class AuthenticationController {
   constructor(service, validator, tokenManager) {
@@ -8,8 +8,7 @@ class AuthenticationController {
     this._validator = validator;
 
     this.loginController = this.loginController.bind(this);
-    this.renewAccessTokenController =
-      this.renewAccessTokenController.bind(this);
+    this.renewAccessTokenController = this.renewAccessTokenController.bind(this);
     this.logoutController = this.logoutController.bind(this);
   }
 
@@ -25,8 +24,8 @@ class AuthenticationController {
     await this._service.addRefreshTokenService(refreshToken);
 
     const response = res.response({
-      status: "success",
-      message: "Authentication berhasil ditambahkan",
+      status: 'success',
+      message: 'Authentication berhasil ditambahkan',
       data: {
         accessToken,
         refreshToken,
@@ -36,7 +35,7 @@ class AuthenticationController {
     return response;
   }
 
-  async renewAccessTokenController(req, res) {
+  async renewAccessTokenController(req) {
     this._validator.validate(this._validationSchema.refreshToken, req.payload);
 
     const { refreshToken } = req.payload;
@@ -45,15 +44,15 @@ class AuthenticationController {
 
     const accessToken = this._tokenManager.generateAccessToken({ id });
     return {
-      status: "success",
-      message: "Access Token berhasil diperbarui",
+      status: 'success',
+      message: 'Access Token berhasil diperbarui',
       data: {
         accessToken,
       },
     };
   }
 
-  async logoutController(req, res) {
+  async logoutController(req) {
     this._validator.validate(this._validationSchema.refreshToken, req.payload);
 
     const { refreshToken } = req.payload;
@@ -61,8 +60,8 @@ class AuthenticationController {
     await this._service.deleteRefreshTokenService(refreshToken);
 
     return {
-      status: "success",
-      message: "Anda berhasil keluar dari aplikasi",
+      status: 'success',
+      message: 'Anda berhasil keluar dari aplikasi',
     };
   }
 }

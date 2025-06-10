@@ -1,4 +1,4 @@
-const validation = require("./validation");
+const validation = require('./validation');
 
 class PlaylistController {
   constructor(service, songService, validator) {
@@ -10,12 +10,9 @@ class PlaylistController {
     this.addPlaylistController = this.addPlaylistController.bind(this);
     this.getPlaylistController = this.getPlaylistController.bind(this);
     this.deletePlaylistController = this.deletePlaylistController.bind(this);
-    this.addSongToPlaylistController =
-      this.addSongToPlaylistController.bind(this);
-    this.getSongsFromPlaylistController =
-      this.getSongsFromPlaylistController.bind(this);
-    this.deleteSongFromPlaylistController =
-      this.deleteSongFromPlaylistController.bind(this);
+    this.addSongToPlaylistController = this.addSongToPlaylistController.bind(this);
+    this.getSongsFromPlaylistController = this.getSongsFromPlaylistController.bind(this);
+    this.deleteSongFromPlaylistController = this.deleteSongFromPlaylistController.bind(this);
   }
 
   async addPlaylistController(req, res) {
@@ -26,7 +23,7 @@ class PlaylistController {
     const playlistId = await this._service.addPlaylistService(name, userId);
 
     const response = res.response({
-      status: "success",
+      status: 'success',
       data: {
         playlistId,
       },
@@ -35,20 +32,20 @@ class PlaylistController {
     return response;
   }
 
-  async getPlaylistController(req, res) {
+  async getPlaylistController(req) {
     const { id: userId } = req.auth.credentials;
 
     const playlists = await this._service.getPlaylistService(userId);
 
     return {
-      status: "success",
+      status: 'success',
       data: {
         playlists,
       },
     };
   }
 
-  async deletePlaylistController(req, res) {
+  async deletePlaylistController(req) {
     const { id: userId } = req.auth.credentials;
     const { id } = req.params;
 
@@ -56,8 +53,8 @@ class PlaylistController {
     await this._service.deletePlaylistService(id, userId);
 
     return {
-      status: "success",
-      message: "Playlist berhasil dihapus",
+      status: 'success',
+      message: 'Playlist berhasil dihapus',
     };
   }
 
@@ -72,43 +69,43 @@ class PlaylistController {
     await this._service.addSongToPlaylistService(playlistId, songId);
 
     const response = res.response({
-      status: "success",
-      message: "Lagu berhasil ditambahkan ke playlist",
+      status: 'success',
+      message: 'Lagu berhasil ditambahkan ke playlist',
     });
     response.code(201);
     return response;
   }
 
-  async getSongsFromPlaylistController(req, res) {
+  async getSongsFromPlaylistController(req) {
     const { id: userId } = req.auth.credentials;
 
     await this._service.verifyPlaylistOwnerService(req.params.id, userId);
     const playlist = await this._service.getSongsFromPlaylistService(
       userId,
-      req.params.id
+      req.params.id,
     );
 
     return {
-      status: "success",
+      status: 'success',
       data: {
         playlist,
       },
     };
   }
 
-  async deleteSongFromPlaylistController(req, res) {
+  async deleteSongFromPlaylistController(req) {
     const { id: userId } = req.auth.credentials;
 
     await this._service.verifyPlaylistOwnerService(req.params.id, userId);
     await this._songService.verifySongService(req.payload.songId);
     await this._service.deleteSongFromPlaylistService(
       req.params.id,
-      req.payload.songId
+      req.payload.songId,
     );
 
     return {
-      status: "success",
-      message: "Lagu berhasil dihapus dari playlist",
+      status: 'success',
+      message: 'Lagu berhasil dihapus dari playlist',
     };
   }
 }

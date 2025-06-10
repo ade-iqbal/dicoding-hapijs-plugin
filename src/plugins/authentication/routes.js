@@ -1,17 +1,17 @@
 const routes = (controller) => [
   {
-    method: "POST",
-    path: "/authentications",
+    method: 'POST',
+    path: '/authentications',
     handler: controller.loginController,
   },
   {
-    method: "PUT",
-    path: "/authentications",
+    method: 'PUT',
+    path: '/authentications',
     handler: controller.renewAccessTokenController,
   },
   {
-    method: "DELETE",
-    path: "/authentications",
+    method: 'DELETE',
+    path: '/authentications',
     handler: controller.logoutController,
   },
 ];

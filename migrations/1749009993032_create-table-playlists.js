@@ -1,7 +1,6 @@
 /**
  * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
  */
-exports.shorthands = undefined;
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
@@ -9,29 +8,29 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable("playlists", {
+  pgm.createTable('playlists', {
     id: {
-      type: "varchar(36)",
+      type: 'varchar(36)',
       notNull: true,
       primaryKey: true,
     },
     owner: {
-      type: "varchar(36)",
+      type: 'varchar(36)',
       notNull: true,
-      references: "users(id)",
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE",
+      references: 'users(id)',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
     name: {
-      type: "varchar(255)",
+      type: 'varchar(255)',
       notNull: true,
     },
     created_at: {
-      type: "timestamp",
+      type: 'timestamp',
       notNull: false,
     },
     updated_at: {
-      type: "timestamp",
+      type: 'timestamp',
       notNull: false,
     },
   });
@@ -43,5 +42,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable("playlists");
+  pgm.dropTable('playlists');
 };

@@ -14,12 +14,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.826.0",
+    "@aws-sdk/s3-request-presigner": "^3.826.0",
     "@hapi/hapi": "^21.4.0",
     "@hapi/jwt": "^3.2.0",
+    "amqplib": "^0.10.8",
     "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "joi": "^17.13.3",
     "pg": "^8.16.0",
+    "redis": "^5.5.6",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

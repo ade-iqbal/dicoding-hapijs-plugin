@@ -9,9 +9,7 @@
   },
   "rules": {
     "no-console": "off",
-    "object-curly-newline": "off",
-    "quotes": "off",
-    "no-restricted-syntax": "off",
+    "global-require": "off",
     "no-underscore-dangle": "off"
   }
 }

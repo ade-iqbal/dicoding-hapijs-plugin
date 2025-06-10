@@ -1,4 +1,4 @@
-const validation = require("./validation");
+const validation = require('./validation');
 
 class SongController {
   constructor(service, validator) {
@@ -16,7 +16,9 @@ class SongController {
   async addSongController(req, res) {
     this._validator.validate(this._validationSchema.add, req.payload);
 
-    const { title, year, genre, performer, duration, albumId } = req.payload;
+    const {
+      title, year, genre, performer, duration, albumId,
+    } = req.payload;
     const songId = await this._service.addSongService({
       title,
       year,
@@ -27,7 +29,7 @@ class SongController {
     });
 
     const response = res.response({
-      status: "success",
+      status: 'success',
       data: {
         songId,
       },
@@ -40,7 +42,7 @@ class SongController {
     const result = await this._service.getSongService();
 
     const response = res.response({
-      status: "success",
+      status: 'success',
       data: {
         songs: result,
       },
@@ -52,7 +54,7 @@ class SongController {
     const result = await this._service.getSongByIdService(req.params.id);
 
     const response = res.response({
-      status: "success",
+      status: 'success',
       data: {
         song: result,
       },
@@ -62,7 +64,9 @@ class SongController {
 
   async updateSongController(req, res) {
     this._validator.validate(this._validationSchema.add, req.payload);
-    const { title, year, genre, performer, duration, albumId } = req.payload;
+    const {
+      title, year, genre, performer, duration, albumId,
+    } = req.payload;
 
     await this._service.updateSongService(req.params.id, {
       title,
@@ -74,8 +78,8 @@ class SongController {
     });
 
     const response = res.response({
-      status: "success",
-      message: "Song berhasil diperbarui",
+      status: 'success',
+      message: 'Song berhasil diperbarui',
     });
     return response;
   }
@@ -84,8 +88,8 @@ class SongController {
     await this._service.deleteSongService(req.params.id);
 
     const response = res.response({
-      status: "success",
-      message: "Song berhasil dihapus",
+      status: 'success',
+      message: 'Song berhasil dihapus',
     });
     return response;
   }
