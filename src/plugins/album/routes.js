@@ -28,6 +28,7 @@ const routes = (controller) => [
         allow: 'multipart/form-data',
         multipart: true,
         output: 'stream',
+        maxBytes: 512000 ,
       },
     },
   },
@@ -51,9 +52,6 @@ const routes = (controller) => [
     method: 'GET',
     path: '/albums/{id}/likes',
     handler: controller.getAlbumLikesCountController,
-    options: {
-      auth: 'openmusic_jwt',
-    },
   },
 ];
 
